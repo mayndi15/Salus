@@ -44,9 +44,9 @@ public class PersonService {
 
     // PRIVATE METHODS
     private void setUpTimestamps(Person p) {
-        if (p.created == null) {
-            p.created = ZonedDateTime.now();
+        if (p.getCreated() == null) {
+            p.setCreated(ZonedDateTime.now());
         }
-        p.updated = ZonedDateTime.now();
+        p.setUpdated(ZonedDateTime.now());
     }
 }

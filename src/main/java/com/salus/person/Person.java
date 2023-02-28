@@ -21,32 +21,32 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "first_name", nullable = false)
-    String firstName;
+    private String firstName;
 
     @Column(name = "last_name", nullable = false)
-    String lastName;
+    private String lastName;
 
     @Column(name = "social_name")
-    String socialName;
+    private String socialName;
 
     @Column(name = "gender", nullable = false)
-    GenderEnum gender;
+    private GenderEnum gender;
 
     @Column(name = "birthday", nullable = false)
-    ZonedDateTime birthday;
+    private ZonedDateTime birthday;
 
     @Column(name = "person_type", nullable = false)
-    PersonTypeEnum personType = PersonTypeEnum.CPF;
+    private PersonTypeEnum personType = PersonTypeEnum.CPF;
 
     @Column(name = "value", nullable = false)
-    String value;
+    private String value;
 
     @Column(name = "created", nullable = false, columnDefinition = "timestamp with time zone")
-    ZonedDateTime created;
+    private ZonedDateTime created;
 
     @Column(name = "updated", nullable = false, columnDefinition = "timestamp with time zone")
-    ZonedDateTime updated;
+    private ZonedDateTime updated;
 }
