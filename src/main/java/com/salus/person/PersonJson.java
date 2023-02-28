@@ -13,7 +13,9 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonJson implements Serializable {
 
-    private Long id = 1L;
+    private static final long serialVersionUID = 1L;
+
+    private Long id;
     private String firstName;
     private String lastName;
     private String socialName;
