@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 public enum SalusExceptionEnum implements ISalusException {
 
     ID_NOT_FOUND(HttpStatus.BAD_REQUEST, 01L, "id.not.found");
-
     private Long code;
     private String key;
     private HttpStatus httpStatus;

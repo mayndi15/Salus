@@ -26,9 +26,7 @@ public class PersonService {
     public Person update(Person p, Long id) {
         Person pPersist = load(id);
 
-        pPersist.setFirstName(p.getFirstName());
-        pPersist.setLastName(p.getLastName());
-        pPersist.setSocialName(p.getSocialName());
+        setUpdate(p, pPersist);
 
         setUpTimestamps(pPersist);
 
@@ -41,8 +39,13 @@ public class PersonService {
         personRepository.delete(pPersist);
     }
 
-
     // PRIVATE METHODS
+    private void setUpdate(Person p, Person pPersist) {
+        pPersist.setFirstName(p.getFirstName());
+        pPersist.setLastName(p.getLastName());
+        pPersist.setSocialName(p.getSocialName());
+    }
+
     private void setUpTimestamps(Person p) {
         if (p.getCreated() == null) {
             p.setCreated(ZonedDateTime.now());
