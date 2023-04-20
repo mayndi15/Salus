@@ -21,7 +21,7 @@ public class PersonJson implements Serializable {
     private String socialName;
     private String gender;
     private String birthday;
-    private String personType;
+    private String document;
     private String value;
     private String created;
     private String updated;

@@ -1,21 +1,26 @@
 package com.salus.utils;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DateUtils {
 
-    public ZonedDateTime stringToDate(String dateString) {
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        ZonedDateTime dateTime = ZonedDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
-
-        return dateTime;
+    public static ZonedDateTime convertStringToZonedDateTime(String stringDateTime) {
+        return stringDateTime == null ? null : ZonedDateTime.parse(stringDateTime, DATE_FORMAT);
     }
 
-    public String dateToString(ZonedDateTime date){
+    public static String convertZonedDateTimeToString(ZonedDateTime zonedDateTime){
+        return zonedDateTime == null ? null : zonedDateTime.toString();
+    }
 
-        String dateTime = date.toString();
+    public static LocalDate convertStringToLocalDate(String stringDate) {
+        return stringDate == null ? null : LocalDate.parse(stringDate, DATE_FORMAT);
+    }
 
-        return dateTime;
+    public static String convertLocalDateToString(LocalDate localDate) {
+        return localDate == null ? null : localDate.toString();
     }
 }

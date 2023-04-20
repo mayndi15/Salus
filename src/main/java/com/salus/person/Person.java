@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @Getter
@@ -39,11 +40,11 @@ public class Person {
     private GenderEnum gender;
 
     @Column(name = "birthday", nullable = false)
-    private ZonedDateTime birthday;
+    private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "person_type", nullable = false)
-    private PersonTypeEnum personType;
+    @Column(name = "document", nullable = false)
+    private DocumentEnum document;
 
     @Column(name = "value", nullable = false)
     private String value;

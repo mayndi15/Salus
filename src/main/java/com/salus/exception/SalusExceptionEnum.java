@@ -5,7 +5,17 @@ import org.springframework.http.HttpStatus;
 
 public enum SalusExceptionEnum implements ISalusException {
 
-    ID_NOT_FOUND(HttpStatus.BAD_REQUEST, 01L, "id.not.found");
+    ID_NOT_FOUND(HttpStatus.BAD_REQUEST, 01L, "id.not.found"),
+    JSON_INVALID_FORMAT(HttpStatus.BAD_REQUEST, 02L, "json.invalid.format"),
+
+
+    PERSON_WITHOUT_FIRST_NAME(HttpStatus.BAD_REQUEST, 11L, "person.without.first.name"),
+    PERSON_WITHOUT_LAST_NAME(HttpStatus.BAD_REQUEST, 12L, "person.without.last.name"),
+    PERSON_WITHOUT_GENDER(HttpStatus.BAD_REQUEST, 13L, "person.without.gender"),
+    PERSON_WITHOUT_BIRTHDAY(HttpStatus.BAD_REQUEST, 14L, "person.without.birthday"),
+    PERSON_INVALID_DOCUMENT(HttpStatus.BAD_REQUEST, 15L, "person.invalid.document"),
+    PERSON_WITHOUT_DOCUMENT_VALUE(HttpStatus.BAD_REQUEST, 16L, "person.without.document.value");
+
     private Long code;
     private String key;
     private HttpStatus httpStatus;

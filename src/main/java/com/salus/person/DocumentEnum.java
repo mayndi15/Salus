@@ -1,5 +1,5 @@
 package com.salus.person;
 
-public enum PersonTypeEnum {
+public enum DocumentEnum {
     CPF // BRAZIL
 }
