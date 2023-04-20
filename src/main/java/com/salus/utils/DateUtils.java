@@ -9,7 +9,7 @@ public class DateUtils {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static ZonedDateTime convertStringToZonedDateTime(String stringDateTime) {
-        return stringDateTime == null ? null : ZonedDateTime.parse(stringDateTime, DATE_FORMAT);
+        return stringDateTime == null || stringDateTime.isEmpty() ? null : ZonedDateTime.parse(stringDateTime, DATE_FORMAT);
     }
 
     public static String convertZonedDateTimeToString(ZonedDateTime zonedDateTime){
@@ -17,7 +17,7 @@ public class DateUtils {
     }
 
     public static LocalDate convertStringToLocalDate(String stringDate) {
-        return stringDate == null ? null : LocalDate.parse(stringDate, DATE_FORMAT);
+        return stringDate == null || stringDate.isEmpty() ? null : LocalDate.parse(stringDate, DATE_FORMAT);
     }
 
     public static String convertLocalDateToString(LocalDate localDate) {

@@ -8,6 +8,8 @@ import com.salus.utils.EnumUtils;
 import com.salus.utils.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class PersonControllerValidator {
 
@@ -80,7 +82,7 @@ public class PersonControllerValidator {
 
     private void validateValue(PersonJson pj) throws SalusException {
         if(pj.getValue() != null && !DocumentUtils.isCPF(pj.getValue())){
-            throw new SalusException(SalusExceptionEnum.PERSON_WITHOUT_DOCUMENT_VALUE);
+            throw new SalusException(SalusExceptionEnum.PERSON_INVALID_DOCUMENT_VALUE);
         }
     }
 }
