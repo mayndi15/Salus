@@ -1,6 +1,8 @@
 package com.salus.person;
 
 import com.salus.exception.SalusException;
+import com.salus.rest.BaseJson;
+import com.salus.utils.SerializationUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,29 +30,41 @@ public class PersonController {
     private PersonControllerValidator controllerValidator;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person load(@PathVariable(value = "id") Long id) throws SalusException {
+    public Person details(@PathVariable(value = "id") Long id) throws SalusException {
 
-        controllerValidator.validateLoad(id);
+        controllerValidator.validateDetails(id);
 
-        return personService.load(id);
+        return personService.details(id);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person create(@RequestBody PersonJson body) throws SalusException {
+    public BaseJson create(@RequestBody String body) throws SalusException {
+        BaseJson bjInput = SerializationUtils.deserializeBaseJson(body);
 
-        controllerValidator.validateCreate(body);
-        Person p = personConverter.toModel(body, null);
+        controllerValidator.validateCreate(bjInput);
 
-        return personService.create(p);
+        Person p = personConverter.toModel(bjInput.getPerson(), null);
+
+        p = personService.create(p);
+
+        BaseJson bjOut = new BaseJson();
+        embedCreateOnBaseJson(bjOut, p);
+        return bjOut;
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person update(@RequestBody PersonJson body, @PathVariable(value = "id") Long id) throws SalusException {
+    public BaseJson update(@RequestBody String body, @PathVariable(value = "id") Long id) throws SalusException {
+        BaseJson bjInput = SerializationUtils.deserializeBaseJson(body);
 
-        controllerValidator.validateUpdate(body, id);
-        Person p = personConverter.toModel(body, id);
+        controllerValidator.validateUpdate(bjInput, id);
 
-        return personService.update(p, id);
+        Person p = personConverter.toModel(bjInput.getPerson(), id);
+
+        Person pNew = personService.update(p, id);
+
+        BaseJson bjOut = new BaseJson();
+        embedUpdateOnBaseJson(bjOut, pNew);
+        return bjOut;
     }
 
     @DeleteMapping(value = "/{id}")
@@ -59,5 +73,17 @@ public class PersonController {
         controllerValidator.validateDelete(id);
 
         personService.delete(id);
+    }
+
+
+    // PRIVATE METHODS
+    private void embedCreateOnBaseJson(BaseJson bjOut, Person p) {
+        PersonJson pj = personConverter.toJson(p);
+        bjOut.setPerson(pj);
+    }
+
+    private void embedUpdateOnBaseJson(BaseJson baseJson, Person p) {
+        PersonJson pj = personConverter.toJson(p);
+        baseJson.setPerson(pj);
     }
 }

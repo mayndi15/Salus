@@ -11,7 +11,12 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public Person load(Long id) {
+    public Boolean load(Long id) {
+
+        return personRepository.findById(id).isPresent();
+    }
+
+    public Person details(Long id) {
 
         return personRepository.findById(id).orElseThrow();
     }
@@ -24,7 +29,7 @@ public class PersonService {
     }
 
     public Person update(Person p, Long id) {
-        Person pPersist = load(id);
+        Person pPersist = details(id);
 
         setUpdate(p, pPersist);
 
@@ -34,7 +39,7 @@ public class PersonService {
     }
 
     public void delete(Long id) {
-        Person pPersist = load(id);
+        Person pPersist = details(id);
 
         personRepository.delete(pPersist);
     }

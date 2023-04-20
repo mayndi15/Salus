@@ -2,33 +2,36 @@ package com.salus.person;
 
 import com.salus.exception.SalusException;
 import com.salus.exception.SalusExceptionEnum;
+import com.salus.rest.BaseJson;
 import com.salus.utils.DateUtils;
 import com.salus.utils.DocumentUtils;
 import com.salus.utils.EnumUtils;
 import com.salus.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 @Component
 public class PersonControllerValidator {
 
-    public void validateCreate(PersonJson pj) throws SalusException {
-        validateJson(pj);
-        validateFirstName(pj);
-        validateLastName(pj);
-        validateGender(pj);
-        validateBirthday(pj);
-        validateDocument(pj);
-        validateValue(pj);
+    @Autowired
+    private PersonService personService;
+
+    public void validateCreate(BaseJson bj) throws SalusException {
+        validateJson(bj);
+        validateFirstName(bj.getPerson());
+        validateLastName(bj.getPerson());
+        validateGender(bj.getPerson());
+        validateBirthday(bj.getPerson());
+        validateDocument(bj.getPerson());
+        validateValue(bj.getPerson());
     }
 
-    public void validateUpdate(PersonJson pj, Long id) throws SalusException {
-        validateJson(pj);
+    public void validateUpdate(BaseJson bj, Long id) throws SalusException {
+        validateJson(bj);
         validateId(id);
     }
 
-    public void validateLoad(Long id) throws SalusException {
+    public void validateDetails(Long id) throws SalusException {
         validateId(id);
     }
 
@@ -39,13 +42,15 @@ public class PersonControllerValidator {
 
     // PRIVATE METHODS
     private void validateId(Long id) throws SalusException {
-        if (id == null || id <= 0) {
+        Boolean hasId = personService.load(id);
+
+        if (!hasId || id <= 0) {
             throw new SalusException(SalusExceptionEnum.ID_NOT_FOUND);
         }
     }
 
-    private void validateJson(PersonJson pj) throws SalusException {
-        if (pj == null) {
+    private void validateJson(BaseJson bj) throws SalusException {
+        if (bj == null) {
             throw new SalusException(SalusExceptionEnum.JSON_INVALID_FORMAT);
         }
     }
