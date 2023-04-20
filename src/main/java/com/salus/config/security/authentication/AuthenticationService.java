@@ -2,6 +2,8 @@ package com.salus.config.security.authentication;
 
 import com.salus.config.security.jwt.JwtService;
 import com.salus.config.security.role.Role;
+import com.salus.config.security.role.RoleEnum;
+import com.salus.config.security.role.RoleService;
 import com.salus.config.security.user.User;
 import com.salus.config.security.user.UserJson;
 import com.salus.config.security.user.UserRepository;
@@ -13,6 +15,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,13 +37,16 @@ public class AuthenticationService {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private RoleService roleService;
+
     public AuthenticationJson register(UserJson uj) {
         Person person = personService.load(uj.getPerson().getId());
-        Role role = new Role();
+        Role role = roleService.findByName("ADMIN");
         var user = User.builder()
                 .username(uj.getUsername())
                 .password(passwordEncoder.encode(uj.getPassword()))
-                .roles(role.getUser().getRoles())
+                .roles(List.of(role))
                 .person(person)
                 .build();
         userRepository.save(user);
@@ -57,7 +64,7 @@ public class AuthenticationService {
                 )
         );
 
-        var user = userRepository.findByUsername(uj.getUsername()).orElseThrow();
+        var user = userRepository.findByUsername(uj.getUsername());
         var jwtToken = jwtService.generateToken(user);
 
         return AuthenticationJson.builder().token(jwtToken).build();
