@@ -67,7 +67,7 @@ public class PersonController {
         return bjOut;
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "inactive/{id}")
     public void inactive(@PathVariable(value = "id") Long id) throws SalusException {
 
         controllerValidator.validateInactive(id);

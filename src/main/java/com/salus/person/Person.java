@@ -49,6 +49,7 @@ public class Person {
     @Column(name = "value", nullable = false)
     private String value;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private StatusEnum status;
 
