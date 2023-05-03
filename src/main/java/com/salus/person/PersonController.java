@@ -34,7 +34,7 @@ public class PersonController {
 
         controllerValidator.validateDetails(id);
 
-        return personService.details(id);
+        return personService.load(id);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -68,13 +68,20 @@ public class PersonController {
     }
 
     @DeleteMapping(value = "/{id}")
+    public void inactive(@PathVariable(value = "id") Long id) throws SalusException {
+
+        controllerValidator.validateInactive(id);
+
+        personService.inactive(id);
+    }
+
+    @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(value = "id") Long id) throws SalusException {
 
         controllerValidator.validateDelete(id);
 
         personService.delete(id);
     }
-
 
     // PRIVATE METHODS
     private void embedCreateOnBaseJson(BaseJson bjOut, Person p) {

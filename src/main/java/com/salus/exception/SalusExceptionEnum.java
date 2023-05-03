@@ -14,7 +14,8 @@ public enum SalusExceptionEnum implements ISalusException {
     PERSON_WITHOUT_GENDER(HttpStatus.BAD_REQUEST, 13L, "person.without.gender"),
     PERSON_WITHOUT_BIRTHDAY(HttpStatus.BAD_REQUEST, 14L, "person.without.birthday"),
     PERSON_INVALID_DOCUMENT(HttpStatus.BAD_REQUEST, 15L, "person.invalid.document"),
-    PERSON_INVALID_DOCUMENT_VALUE(HttpStatus.BAD_REQUEST, 16L, "person.invalid.document.value");
+    PERSON_INVALID_DOCUMENT_VALUE(HttpStatus.BAD_REQUEST, 16L, "person.invalid.document.value"),
+    PERSON_INVALID_STATUS(HttpStatus.BAD_REQUEST, 17L, "person.invalid.status");
 
     private Long code;
     private String key;

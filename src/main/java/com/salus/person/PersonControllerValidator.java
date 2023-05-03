@@ -27,11 +27,16 @@ public class PersonControllerValidator {
     }
 
     public void validateUpdate(BaseJson bj, Long id) throws SalusException {
+        validateStatus(bj.getPerson());
         validateJson(bj);
         validateId(id);
     }
 
     public void validateDetails(Long id) throws SalusException {
+        validateId(id);
+    }
+
+    public void validateInactive(Long id) throws SalusException {
         validateId(id);
     }
 
@@ -42,9 +47,9 @@ public class PersonControllerValidator {
 
     // PRIVATE METHODS
     private void validateId(Long id) throws SalusException {
-        Boolean hasId = personService.load(id);
+        Person p = personService.load(id);
 
-        if (!hasId || id <= 0) {
+        if (p == null) {
             throw new SalusException(SalusExceptionEnum.ID_NOT_FOUND);
         }
     }
@@ -55,38 +60,44 @@ public class PersonControllerValidator {
         }
     }
 
+    private void validateStatus(PersonJson pj) throws SalusException {
+        if (pj.status() != null && !EnumUtils.isEnumValid(pj.status(), StatusEnum.class)) {
+            throw new SalusException(SalusExceptionEnum.PERSON_INVALID_STATUS);
+        }
+    }
+
     private void validateFirstName(PersonJson pj) throws SalusException {
-        if (pj.getFirstName() != null && StringUtils.isBlank(pj.getFirstName())) {
+        if (pj.firstName() != null && StringUtils.isBlank(pj.firstName())) {
             throw new SalusException(SalusExceptionEnum.PERSON_WITHOUT_FIRST_NAME);
         }
     }
 
     private void validateLastName(PersonJson pj) throws SalusException {
-        if (pj.getLastName() != null && StringUtils.isBlank(pj.getLastName())) {
+        if (pj.lastName() != null && StringUtils.isBlank(pj.lastName())) {
             throw new SalusException(SalusExceptionEnum.PERSON_WITHOUT_LAST_NAME);
         }
     }
 
     private void validateGender(PersonJson pj) throws SalusException {
-        if (pj.getGender() != null && !EnumUtils.isEnumValid(pj.getGender(), GenderEnum.class)) {
+        if (pj.gender() != null && !EnumUtils.isEnumValid(pj.gender(), GenderEnum.class)) {
             throw new SalusException(SalusExceptionEnum.PERSON_WITHOUT_GENDER);
         }
     }
 
     private void validateBirthday(PersonJson pj) throws SalusException {
-        if (pj.getBirthday() != null && DateUtils.convertStringToLocalDate(pj.getBirthday()) == null) {
+        if (pj.birthday() != null && DateUtils.convertStringToLocalDate(pj.birthday()) == null) {
             throw new SalusException(SalusExceptionEnum.PERSON_WITHOUT_BIRTHDAY);
         }
     }
 
     private void validateDocument(PersonJson pj) throws SalusException {
-        if (pj.getDocument() != null && !EnumUtils.isEnumValid(pj.getDocument(), DocumentEnum.class)) {
+        if (pj.document() != null && !EnumUtils.isEnumValid(pj.document(), DocumentEnum.class)) {
             throw new SalusException(SalusExceptionEnum.PERSON_INVALID_DOCUMENT);
         }
     }
 
     private void validateValue(PersonJson pj) throws SalusException {
-        if(pj.getValue() != null && !DocumentUtils.isCPF(pj.getValue())){
+        if (pj.value() != null && !DocumentUtils.isCPF(pj.value())) {
             throw new SalusException(SalusExceptionEnum.PERSON_INVALID_DOCUMENT_VALUE);
         }
     }

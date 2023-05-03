@@ -1,28 +1,20 @@
 package com.salus.person;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.io.Serializable;
+public record PersonJson(
+        Long id,
+        String firstName,
+        String lastName,
+        String socialName,
+        String gender,
+        String birthday,
+        String document,
+        String value,
+        String status,
+        @JsonIgnore
+        String created,
+        @JsonIgnore
+        String updated) {
 
-@Getter
-@Setter
-@NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class PersonJson implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private String socialName;
-    private String gender;
-    private String birthday;
-    private String document;
-    private String value;
-    private String created;
-    private String updated;
 }

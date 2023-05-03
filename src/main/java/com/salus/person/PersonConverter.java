@@ -10,31 +10,23 @@ public class PersonConverter {
 
         Person p = new Person();
         p.setId(id);
-        p.setFirstName(pj.getFirstName());
-        p.setLastName(pj.getLastName());
-        p.setSocialName(pj.getSocialName());
-        p.setGender(GenderEnum.valueOf(pj.getGender()));
-        p.setBirthday(DateUtils.convertStringToLocalDate(pj.getBirthday()));
-        p.setDocument(DocumentEnum.valueOf(pj.getDocument()));
-        p.setValue(pj.getValue());
+        p.setFirstName(pj.firstName());
+        p.setLastName(pj.lastName());
+        p.setSocialName(pj.socialName());
+        p.setGender(GenderEnum.valueOf(pj.gender()));
+        p.setBirthday(DateUtils.convertStringToLocalDate(pj.birthday()));
+        p.setDocument(DocumentEnum.valueOf(pj.document()));
+        p.setValue(pj.value());
+        p.setStatus(StatusEnum.valueOf(pj.status()));
 
         return p;
     }
 
     public PersonJson toJson(Person p) {
 
-        PersonJson pj = new PersonJson();
-        pj.setId(p.getId());
-        pj.setFirstName(p.getFirstName());
-        pj.setLastName(p.getLastName());
-        pj.setSocialName(p.getSocialName());
-        pj.setGender(p.getGender().toString());
-        pj.setBirthday(DateUtils.convertLocalDateToString(p.getBirthday()));
-        pj.setDocument(p.getDocument().toString());
-        pj.setValue(p.getValue());
-        pj.setCreated(DateUtils.convertZonedDateTimeToString(p.getCreated()));
-        pj.setUpdated(DateUtils.convertZonedDateTimeToString(p.getUpdated()));
-
-        return pj;
+        return new PersonJson(p.getId(), p.getFirstName(), p.getLastName(), p.getSocialName(),
+                p.getGender().toString(), DateUtils.convertLocalDateToString(p.getBirthday()),
+                p.getDocument().toString(), p.getValue(), p.getStatus().toString(),
+                (DateUtils.convertZonedDateTimeToString(p.getCreated())), (DateUtils.convertZonedDateTimeToString(p.getUpdated())));
     }
 }

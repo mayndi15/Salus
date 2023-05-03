@@ -1,6 +1,9 @@
 package com.salus.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -11,14 +14,13 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public Boolean load(Long id) {
+    public Person load(Long id) {
 
-        return personRepository.findById(id).isPresent();
-    }
+        if (id == null) {
+            return null;
+        }
 
-    public Person details(Long id) {
-
-        return personRepository.findById(id).orElseThrow();
+        return personRepository.getReferenceById(id);
     }
 
     public Person create(Person p) {
@@ -29,7 +31,7 @@ public class PersonService {
     }
 
     public Person update(Person p, Long id) {
-        Person pPersist = details(id);
+        Person pPersist = load(id);
 
         setUpdate(p, pPersist);
 
@@ -39,9 +41,20 @@ public class PersonService {
     }
 
     public void delete(Long id) {
-        Person pPersist = details(id);
+        Person pPersist = load(id);
 
         personRepository.delete(pPersist);
+    }
+
+    public void inactive(Long id) {
+        Person pPersist = load(id);
+        pPersist.setStatus(StatusEnum.INACTIVE);
+
+        personRepository.save(pPersist);
+    }
+
+    public Page<Person> list(@PageableDefault(size = 5, sort = {"firstName"}) Pageable pageable) {
+        return personRepository.findAll(pageable);
     }
 
     // PRIVATE METHODS

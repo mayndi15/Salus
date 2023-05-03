@@ -49,6 +49,9 @@ public class Person {
     @Column(name = "value", nullable = false)
     private String value;
 
+    @Column(name = "status", nullable = false)
+    private StatusEnum status;
+
     @Column(name = "created", nullable = false, columnDefinition = "timestamp with time zone")
     private ZonedDateTime created;
 
