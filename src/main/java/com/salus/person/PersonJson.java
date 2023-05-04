@@ -1,7 +1,5 @@
 package com.salus.person;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public record PersonJson(
         Long id,
         String firstName,
@@ -12,9 +10,6 @@ public record PersonJson(
         String document,
         String value,
         String status,
-        @JsonIgnore
         String created,
-        @JsonIgnore
         String updated) {
-
 }

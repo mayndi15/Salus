@@ -3,7 +3,6 @@ package com.salus.person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -27,6 +26,8 @@ public class PersonService {
 
         setUpTimestamps(p);
 
+        p.setStatus(StatusEnum.ACTIVE);
+
         return personRepository.save(p);
     }
 
@@ -46,14 +47,14 @@ public class PersonService {
         personRepository.delete(pPersist);
     }
 
-    public void inactive(Long id) {
+    public void inactivate(Long id) {
         Person pPersist = load(id);
         pPersist.setStatus(StatusEnum.INACTIVE);
 
         personRepository.save(pPersist);
     }
 
-    public Page<Person> list(@PageableDefault(size = 5, sort = {"firstName"}) Pageable pageable) {
+    public Page<Person> list(Pageable pageable) {
         return personRepository.findAll(pageable);
     }
 

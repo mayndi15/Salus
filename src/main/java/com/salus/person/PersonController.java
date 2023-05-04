@@ -5,7 +5,10 @@ import com.salus.rest.BaseJson;
 import com.salus.utils.SerializationUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,16 +32,8 @@ public class PersonController {
     @Autowired
     private PersonControllerValidator controllerValidator;
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person details(@PathVariable(value = "id") Long id) throws SalusException {
-
-        controllerValidator.validateDetails(id);
-
-        return personService.load(id);
-    }
-
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public BaseJson create(@RequestBody String body) throws SalusException {
+    public ResponseEntity<BaseJson> create(@RequestBody String body) throws SalusException {
         BaseJson bjInput = SerializationUtils.deserializeBaseJson(body);
 
         controllerValidator.validateCreate(bjInput);
@@ -48,12 +43,12 @@ public class PersonController {
         p = personService.create(p);
 
         BaseJson bjOut = new BaseJson();
-        embedCreateOnBaseJson(bjOut, p);
-        return bjOut;
+        embedOnBaseJson(bjOut, p);
+        return ResponseEntity.ok(bjOut);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BaseJson update(@RequestBody String body, @PathVariable(value = "id") Long id) throws SalusException {
+    public ResponseEntity<BaseJson> update(@RequestBody String body, @PathVariable(value = "id") Long id) throws SalusException {
         BaseJson bjInput = SerializationUtils.deserializeBaseJson(body);
 
         controllerValidator.validateUpdate(bjInput, id);
@@ -63,34 +58,53 @@ public class PersonController {
         Person pNew = personService.update(p, id);
 
         BaseJson bjOut = new BaseJson();
-        embedUpdateOnBaseJson(bjOut, pNew);
-        return bjOut;
+        embedOnBaseJson(bjOut, pNew);
+        return ResponseEntity.ok(bjOut);
     }
 
-    @DeleteMapping(value = "inactive/{id}")
-    public void inactive(@PathVariable(value = "id") Long id) throws SalusException {
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity details(@PathVariable(value = "id") Long id) throws SalusException {
+
+        controllerValidator.validateDetails(id);
+
+        Person p = personService.load(id);
+
+        BaseJson bjOut = new BaseJson();
+        embedOnBaseJson(bjOut, p);
+        return ResponseEntity.ok(bjOut);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<Person>> list(Pageable pageable) throws SalusException {
+
+        Page<Person> pList = personService.list(pageable);
+
+        return ResponseEntity.ok(pList);
+    }
+
+    @DeleteMapping(value = "inactivate/{id}")
+    public ResponseEntity inactivate(@PathVariable(value = "id") Long id) throws SalusException {
 
         controllerValidator.validateInactive(id);
 
-        personService.inactive(id);
+        personService.inactivate(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(value = "id") Long id) throws SalusException {
+    public ResponseEntity delete(@PathVariable(value = "id") Long id) throws SalusException {
 
         controllerValidator.validateDelete(id);
 
         personService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     // PRIVATE METHODS
-    private void embedCreateOnBaseJson(BaseJson bjOut, Person p) {
+    private void embedOnBaseJson(BaseJson bjOut, Person p) {
         PersonJson pj = personConverter.toJson(p);
         bjOut.setPerson(pj);
-    }
-
-    private void embedUpdateOnBaseJson(BaseJson baseJson, Person p) {
-        PersonJson pj = personConverter.toJson(p);
-        baseJson.setPerson(pj);
     }
 }

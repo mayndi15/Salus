@@ -17,7 +17,6 @@ public class PersonConverter {
         p.setBirthday(DateUtils.convertStringToLocalDate(pj.birthday()));
         p.setDocument(DocumentEnum.valueOf(pj.document()));
         p.setValue(pj.value());
-        p.setStatus(StatusEnum.valueOf(pj.status()));
 
         return p;
     }
