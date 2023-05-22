@@ -4,17 +4,11 @@ import com.salus.exception.SalusException;
 import com.salus.exception.SalusExceptionEnum;
 import com.salus.rest.BaseJson;
 import com.salus.utils.DateUtils;
-import com.salus.utils.DocumentUtils;
 import com.salus.utils.EnumUtils;
-import com.salus.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PersonControllerValidator {
-
-    @Autowired
-    private PersonService personService;
 
     public void validateCreate(BaseJson bj) throws SalusException {
         validateJson(bj);
@@ -27,7 +21,6 @@ public class PersonControllerValidator {
     }
 
     public void validateUpdate(BaseJson bj, Long id) throws SalusException {
-        validateStatus(bj.getPerson());
         validateJson(bj);
         validateId(id);
     }
@@ -44,12 +37,9 @@ public class PersonControllerValidator {
         validateId(id);
     }
 
-
     // PRIVATE METHODS
     private void validateId(Long id) throws SalusException {
-        Person p = personService.load(id);
-
-        if (p == null) {
+        if (id == null) {
             throw new SalusException(SalusExceptionEnum.ID_NOT_FOUND);
         }
     }
@@ -60,20 +50,14 @@ public class PersonControllerValidator {
         }
     }
 
-    private void validateStatus(PersonJson pj) throws SalusException {
-        if (pj.status() != null && !EnumUtils.isEnumValid(pj.status(), StatusEnum.class)) {
-            throw new SalusException(SalusExceptionEnum.PERSON_INVALID_STATUS);
-        }
-    }
-
     private void validateFirstName(PersonJson pj) throws SalusException {
-        if (pj.firstName() != null && StringUtils.isBlank(pj.firstName())) {
+        if (pj.firstName() == null) {
             throw new SalusException(SalusExceptionEnum.PERSON_WITHOUT_FIRST_NAME);
         }
     }
 
     private void validateLastName(PersonJson pj) throws SalusException {
-        if (pj.lastName() != null && StringUtils.isBlank(pj.lastName())) {
+        if (pj.lastName() == null) {
             throw new SalusException(SalusExceptionEnum.PERSON_WITHOUT_LAST_NAME);
         }
     }
@@ -97,7 +81,7 @@ public class PersonControllerValidator {
     }
 
     private void validateValue(PersonJson pj) throws SalusException {
-        if (pj.value() != null && !DocumentUtils.isCPF(pj.value())) {
+        if (pj.value() == null) {
             throw new SalusException(SalusExceptionEnum.PERSON_INVALID_DOCUMENT_VALUE);
         }
     }

@@ -23,9 +23,17 @@ public class PersonConverter {
 
     public PersonJson toJson(Person p) {
 
-        return new PersonJson(p.getId(), p.getFirstName(), p.getLastName(), p.getSocialName(),
-                p.getGender().toString(), DateUtils.convertLocalDateToString(p.getBirthday()),
-                p.getDocument().toString(), p.getValue(), p.getStatus().toString(),
-                (DateUtils.convertZonedDateTimeToString(p.getCreated())), (DateUtils.convertZonedDateTimeToString(p.getUpdated())));
+        return new PersonJson(
+                p.getId(),
+                p.getFirstName(),
+                p.getLastName(),
+                p.getSocialName(),
+                p.getGender().toString(),
+                DateUtils.convertLocalDateToString(p.getBirthday()),
+                p.getDocument().toString(),
+                p.getValue(),
+                p.getStatus().toString(),
+                (DateUtils.convertZonedDateTimeToString(p.getCreated())),
+                (DateUtils.convertZonedDateTimeToString(p.getUpdated())));
     }
 }

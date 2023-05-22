@@ -12,12 +12,12 @@ public class DateUtils {
         return stringDateTime == null || stringDateTime.isEmpty() ? null : ZonedDateTime.parse(stringDateTime, DATE_FORMAT);
     }
 
-    public static String convertZonedDateTimeToString(ZonedDateTime zonedDateTime){
+    public static String convertZonedDateTimeToString(ZonedDateTime zonedDateTime) {
         return zonedDateTime == null ? null : zonedDateTime.toString();
     }
 
-    public static LocalDate convertStringToLocalDate(String stringDate) {
-        return stringDate == null || stringDate.isEmpty() ? null : LocalDate.parse(stringDate, DATE_FORMAT);
+    public static LocalDate convertStringToLocalDate(String stringLocalDate) {
+        return stringLocalDate == null || stringLocalDate.isEmpty() ? null : LocalDate.parse(stringLocalDate, DATE_FORMAT);
     }
 
     public static String convertLocalDateToString(LocalDate localDate) {

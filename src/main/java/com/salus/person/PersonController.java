@@ -63,7 +63,7 @@ public class PersonController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity details(@PathVariable(value = "id") Long id) throws SalusException {
+    public ResponseEntity<BaseJson> details(@PathVariable(value = "id") Long id) throws SalusException {
 
         controllerValidator.validateDetails(id);
 
