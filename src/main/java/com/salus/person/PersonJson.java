@@ -1,5 +1,7 @@
 package com.salus.person;
 
+import java.io.Serializable;
+
 public record PersonJson(
         Long id,
         String firstName,
@@ -11,5 +13,5 @@ public record PersonJson(
         String value,
         String status,
         String created,
-        String updated) {
+        String updated) implements Serializable {
 }

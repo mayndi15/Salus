@@ -34,7 +34,7 @@ public class PersonController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BaseJson> create(@RequestBody String body) throws SalusException {
-        BaseJson bjInput = SerializationUtils.deserializeBaseJson(body);
+        BaseJson bjInput = SerializationUtils.deserializeJson(body);
 
         controllerValidator.validateCreate(bjInput);
 
@@ -49,7 +49,7 @@ public class PersonController {
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BaseJson> update(@RequestBody String body, @PathVariable(value = "id") Long id) throws SalusException {
-        BaseJson bjInput = SerializationUtils.deserializeBaseJson(body);
+        BaseJson bjInput = SerializationUtils.deserializeJson(body);
 
         controllerValidator.validateUpdate(bjInput, id);
 

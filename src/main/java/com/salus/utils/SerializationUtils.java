@@ -37,7 +37,7 @@ public class SerializationUtils {
         }
     }
 
-    public static BaseJson deserializeBaseJson(String jsonStr) {
+    public static BaseJson deserializeJson(String jsonStr) {
         return fromJson(jsonStr, BaseJson.class);
     }
 
