@@ -27,18 +27,10 @@ public class PersonServiceValidator {
         validateId(id);
     }
 
-    public void validateInactive(Long id) throws SalusException {
-        validateId(id);
-    }
-
-    public void validateDelete(Long id) throws SalusException {
-        validateId(id);
-    }
-
     public void validateId(Long id) throws SalusException {
         Person p = personService.load(id);
 
-        if (p.getId() == null) {
+        if (p == null || p.getId() == null) {
             throw new SalusException(SalusExceptionEnum.ID_NOT_FOUND);
         }
     }

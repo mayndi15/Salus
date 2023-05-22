@@ -23,7 +23,12 @@ public class PersonService {
             return null;
         }
 
-        return personRepository.getReferenceById(id);
+        Person p = personRepository.getReferenceById(id);
+
+        if (p.getClass() != Person.class && p.getId() == null) {
+            return null;
+        }
+        return p;
     }
 
     public Person create(Person p) throws SalusException {
@@ -51,7 +56,7 @@ public class PersonService {
     }
 
     public void delete(Long id) throws SalusException {
-        personServiceValidator.validateDelete(id);
+        personServiceValidator.validateId(id);
 
         Person pPersist = load(id);
 
@@ -59,7 +64,7 @@ public class PersonService {
     }
 
     public void inactivate(Long id) throws SalusException {
-        personServiceValidator.validateInactive(id);
+        personServiceValidator.validateId(id);
 
         Person pPersist = load(id);
         pPersist.setStatus(StatusEnum.INACTIVE);
