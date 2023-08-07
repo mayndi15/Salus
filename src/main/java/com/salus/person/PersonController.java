@@ -74,7 +74,7 @@ public class PersonController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<Person>> list(Pageable pageable) throws SalusException {
+    public ResponseEntity<Page<Person>> list(Pageable pageable) {
 
         Page<Person> pList = service.list(pageable);
 
