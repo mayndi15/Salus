@@ -25,23 +25,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class PersonController {
 
     @Autowired
-    private PersonService personService;
+    private PersonService service;
 
     @Autowired
-    private PersonConverter personConverter;
+    private PersonConverter converter;
 
     @Autowired
-    private PersonControllerValidator controllerValidator;
+    private PersonControllerValidator validator;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonJson> create(@RequestBody String body) throws SalusException, JsonProcessingException {
         BaseJson request = JsonUtils.deserialize(body, BaseJson.class);
 
-        controllerValidator.validateCreate(request);
+        validator.validateCreate(request);
 
-        Person p = personConverter.toModel(request.getPerson(), null);
+        Person p = converter.toModel(request.getPerson(), null);
 
-        p = personService.create(p);
+        p = service.create(p);
 
         PersonJson response = embedJson(p);
         return ResponseEntity.ok(response);
@@ -51,11 +51,11 @@ public class PersonController {
     public ResponseEntity<PersonJson> update(@RequestBody String body, @PathVariable(value = "id") Long id) throws SalusException, JsonProcessingException {
         BaseJson request = JsonUtils.deserialize(body, BaseJson.class);
 
-        controllerValidator.validateUpdate(request, id);
+        validator.validateUpdate(request, id);
 
-        Person p = personConverter.toModel(request.getPerson(), id);
+        Person p = converter.toModel(request.getPerson(), id);
 
-        Person pNew = personService.update(p, id);
+        Person pNew = service.update(p, id);
 
         PersonJson response = embedJson(pNew);
         return ResponseEntity.ok(response);
@@ -64,9 +64,9 @@ public class PersonController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonJson> details(@PathVariable(value = "id") Long id) throws SalusException {
 
-        controllerValidator.validateDetails(id);
+        validator.validateDetails(id);
 
-        Person p = personService.details(id);
+        Person p = service.details(id);
 
         PersonJson response = embedJson(p);
         return ResponseEntity.ok(response);
@@ -75,7 +75,7 @@ public class PersonController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<Person>> list(Pageable pageable) throws SalusException {
 
-        Page<Person> pList = personService.list(pageable);
+        Page<Person> pList = service.list(pageable);
 
         return ResponseEntity.ok(pList);
     }
@@ -83,9 +83,9 @@ public class PersonController {
     @DeleteMapping(value = "inactivate/{id}")
     public ResponseEntity inactivate(@PathVariable(value = "id") Long id) throws SalusException {
 
-        controllerValidator.validateInactive(id);
+        validator.validateInactive(id);
 
-        personService.inactivate(id);
+        service.inactivate(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -93,9 +93,9 @@ public class PersonController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") Long id) throws SalusException {
 
-        controllerValidator.validateDelete(id);
+        validator.validateDelete(id);
 
-        personService.delete(id);
+        service.delete(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -103,6 +103,6 @@ public class PersonController {
     // PRIVATE METHODS
     private PersonJson embedJson(Person p) {
 
-        return personConverter.toJson(p);
+        return converter.toJson(p);
     }
 }

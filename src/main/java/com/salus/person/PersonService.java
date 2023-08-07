@@ -13,10 +13,10 @@ import java.time.ZonedDateTime;
 public class PersonService {
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonRepository repository;
 
     @Autowired
-    private PersonServiceValidator personServiceValidator;
+    private PersonServiceValidator validator;
 
     public Person load(Long id) {
 
@@ -24,7 +24,7 @@ public class PersonService {
             return null;
         }
 
-        return personRepository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null);
     }
 
     public Person create(Person p) throws SalusException {
@@ -32,13 +32,13 @@ public class PersonService {
         setUpTimestamps(p);
         p.setStatus(StatusEnum.ACTIVE);
 
-        personServiceValidator.validateCreate(p);
+        validator.validateCreate(p);
 
-        return personRepository.save(p);
+        return repository.save(p);
     }
 
     public Person update(Person p, Long id) throws SalusException {
-        personServiceValidator.validateId(id);
+        validator.validateId(id);
 
         Person pPersist = load(id);
 
@@ -46,36 +46,36 @@ public class PersonService {
 
         setUpTimestamps(pPersist);
 
-        personServiceValidator.validateUpdate(pPersist, id);
+        validator.validateUpdate(pPersist, id);
 
-        return personRepository.save(pPersist);
+        return repository.save(pPersist);
     }
 
     public void delete(Long id) throws SalusException {
-        personServiceValidator.validateId(id);
+        validator.validateId(id);
 
         Person pPersist = load(id);
 
-        personRepository.delete(pPersist);
+        repository.delete(pPersist);
     }
 
     public void inactivate(Long id) throws SalusException {
-        personServiceValidator.validateId(id);
+        validator.validateId(id);
 
         Person pPersist = load(id);
         pPersist.setStatus(StatusEnum.INACTIVE);
 
-        personRepository.save(pPersist);
+        repository.save(pPersist);
     }
 
     public Person details(Long id) throws SalusException {
-        personServiceValidator.validateId(id);
+        validator.validateId(id);
 
         return load(id);
     }
 
     public Page<Person> list(Pageable pageable) {
-        return personRepository.findAll(pageable);
+        return repository.findAll(pageable);
     }
 
 
