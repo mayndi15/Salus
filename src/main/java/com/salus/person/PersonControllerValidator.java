@@ -2,6 +2,8 @@ package com.salus.person;
 
 import com.salus.exception.SalusException;
 import com.salus.exception.SalusExceptionEnum;
+import com.salus.person.enums.DocumentTypeEnum;
+import com.salus.person.enums.GenderEnum;
 import com.salus.rest.BaseJson;
 import com.salus.utils.DateUtils;
 import com.salus.utils.EnumUtils;
@@ -16,8 +18,8 @@ public class PersonControllerValidator {
         validateLastName(bj.getPerson());
         validateGender(bj.getPerson());
         validateBirthday(bj.getPerson());
+        validateDocumentType(bj.getPerson());
         validateDocument(bj.getPerson());
-        validateValue(bj.getPerson());
     }
 
     public void validateUpdate(BaseJson bj, Long id) throws SalusException {
@@ -63,7 +65,7 @@ public class PersonControllerValidator {
     }
 
     private void validateGender(PersonJson pj) throws SalusException {
-        if (pj.gender() != null && !EnumUtils.isEnumValid(pj.gender(), GenderEnum.class)) {
+        if (pj.gender() != null && !EnumUtils.isEnum(pj.gender(), GenderEnum.class)) {
             throw new SalusException(SalusExceptionEnum.PERSON_WITHOUT_GENDER);
         }
     }
@@ -74,14 +76,14 @@ public class PersonControllerValidator {
         }
     }
 
-    private void validateDocument(PersonJson pj) throws SalusException {
-        if (pj.document() != null && !EnumUtils.isEnumValid(pj.document(), DocumentEnum.class)) {
+    private void validateDocumentType(PersonJson pj) throws SalusException {
+        if (pj.typeDocument() != null && !EnumUtils.isEnum(pj.typeDocument(), DocumentTypeEnum.class)) {
             throw new SalusException(SalusExceptionEnum.PERSON_INVALID_DOCUMENT);
         }
     }
 
-    private void validateValue(PersonJson pj) throws SalusException {
-        if (pj.value() == null) {
+    private void validateDocument(PersonJson pj) throws SalusException {
+        if (pj.document() == null) {
             throw new SalusException(SalusExceptionEnum.PERSON_INVALID_DOCUMENT_VALUE);
         }
     }

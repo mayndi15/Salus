@@ -1,4 +1,4 @@
-package com.salus.person;
+package com.salus.person.enums;
 
 public enum GenderEnum {
     MALE,

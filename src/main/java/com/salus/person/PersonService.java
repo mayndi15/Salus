@@ -1,6 +1,7 @@
 package com.salus.person;
 
 import com.salus.exception.SalusException;
+import com.salus.person.enums.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,12 +24,7 @@ public class PersonService {
             return null;
         }
 
-        Person p = personRepository.getReferenceById(id);
-
-        if (p.getClass() != Person.class && p.getId() == null) {
-            return null;
-        }
-        return p;
+        return personRepository.findById(id).orElse(null);
     }
 
     public Person create(Person p) throws SalusException {
@@ -50,7 +46,7 @@ public class PersonService {
 
         setUpTimestamps(pPersist);
 
-        personServiceValidator.validateUpdate(p, id);
+        personServiceValidator.validateUpdate(pPersist, id);
 
         return personRepository.save(pPersist);
     }
@@ -72,9 +68,16 @@ public class PersonService {
         personRepository.save(pPersist);
     }
 
+    public Person details(Long id) throws SalusException {
+        personServiceValidator.validateId(id);
+
+        return load(id);
+    }
+
     public Page<Person> list(Pageable pageable) {
         return personRepository.findAll(pageable);
     }
+
 
     // PRIVATE METHODS
     private void setUpdate(Person p, Person pPersist) {

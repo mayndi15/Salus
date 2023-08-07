@@ -1,5 +1,8 @@
 package com.salus.person;
 
+import com.salus.person.enums.DocumentTypeEnum;
+import com.salus.person.enums.GenderEnum;
+import com.salus.person.enums.StatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -43,11 +46,11 @@ public class Person {
     private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "document", nullable = false)
-    private DocumentEnum document;
+    @Column(name = "typeDocument", nullable = false)
+    private DocumentTypeEnum typeDocument;
 
-    @Column(name = "value", nullable = false)
-    private String value;
+    @Column(name = "document", nullable = false)
+    private String document;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)

@@ -1,8 +1,9 @@
 package com.salus.person;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.salus.exception.SalusException;
 import com.salus.rest.BaseJson;
-import com.salus.utils.SerializationUtils;
+import com.salus.utils.JsonUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,45 +34,42 @@ public class PersonController {
     private PersonControllerValidator controllerValidator;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseJson> create(@RequestBody String body) throws SalusException {
-        BaseJson bjInput = SerializationUtils.deserializeJson(body);
+    public ResponseEntity<PersonJson> create(@RequestBody String body) throws SalusException, JsonProcessingException {
+        BaseJson request = JsonUtils.deserialize(body, BaseJson.class);
 
-        controllerValidator.validateCreate(bjInput);
+        controllerValidator.validateCreate(request);
 
-        Person p = personConverter.toModel(bjInput.getPerson(), null);
+        Person p = personConverter.toModel(request.getPerson(), null);
 
         p = personService.create(p);
 
-        BaseJson bjOut = new BaseJson();
-        embedOnBaseJson(bjOut, p);
-        return ResponseEntity.ok(bjOut);
+        PersonJson response = embedJson(p);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseJson> update(@RequestBody String body, @PathVariable(value = "id") Long id) throws SalusException {
-        BaseJson bjInput = SerializationUtils.deserializeJson(body);
+    public ResponseEntity<PersonJson> update(@RequestBody String body, @PathVariable(value = "id") Long id) throws SalusException, JsonProcessingException {
+        BaseJson request = JsonUtils.deserialize(body, BaseJson.class);
 
-        controllerValidator.validateUpdate(bjInput, id);
+        controllerValidator.validateUpdate(request, id);
 
-        Person p = personConverter.toModel(bjInput.getPerson(), id);
+        Person p = personConverter.toModel(request.getPerson(), id);
 
         Person pNew = personService.update(p, id);
 
-        BaseJson bjOut = new BaseJson();
-        embedOnBaseJson(bjOut, pNew);
-        return ResponseEntity.ok(bjOut);
+        PersonJson response = embedJson(pNew);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseJson> details(@PathVariable(value = "id") Long id) throws SalusException {
+    public ResponseEntity<PersonJson> details(@PathVariable(value = "id") Long id) throws SalusException {
 
         controllerValidator.validateDetails(id);
 
-        Person p = personService.load(id);
+        Person p = personService.details(id);
 
-        BaseJson bjOut = new BaseJson();
-        embedOnBaseJson(bjOut, p);
-        return ResponseEntity.ok(bjOut);
+        PersonJson response = embedJson(p);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -103,8 +101,8 @@ public class PersonController {
     }
 
     // PRIVATE METHODS
-    private void embedOnBaseJson(BaseJson bjOut, Person p) {
-        PersonJson pj = personConverter.toJson(p);
-        bjOut.setPerson(pj);
+    private PersonJson embedJson(Person p) {
+
+        return personConverter.toJson(p);
     }
 }

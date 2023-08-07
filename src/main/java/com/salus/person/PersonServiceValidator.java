@@ -2,6 +2,7 @@ package com.salus.person;
 
 import com.salus.exception.SalusException;
 import com.salus.exception.SalusExceptionEnum;
+import com.salus.person.enums.StatusEnum;
 import com.salus.utils.DocumentUtils;
 import com.salus.utils.EnumUtils;
 import com.salus.utils.StringUtils;
@@ -18,7 +19,7 @@ public class PersonServiceValidator {
         validateJson(p);
         validateFirstName(p);
         validateLastName(p);
-        validateValue(p);
+        validateDocument(p);
     }
 
     public void validateUpdate(Person p, Long id) throws SalusException {
@@ -54,14 +55,14 @@ public class PersonServiceValidator {
         }
     }
 
-    private void validateValue(Person p) throws SalusException {
-        if (p.getValue() != null && !DocumentUtils.isCPF(p.getValue())) {
+    private void validateDocument(Person p) throws SalusException {
+        if (p.getDocument() != null && !DocumentUtils.isCPF(p.getDocument())) {
             throw new SalusException(SalusExceptionEnum.PERSON_INVALID_DOCUMENT_VALUE);
         }
     }
 
     private void validateStatus(Person p) throws SalusException {
-        if (p.getStatus() != null && !EnumUtils.isEnumValid(p.getStatus().toString(), StatusEnum.class)) {
+        if (p.getStatus() != null && !EnumUtils.isEnum(p.getStatus().toString(), StatusEnum.class)) {
             throw new SalusException(SalusExceptionEnum.PERSON_INVALID_STATUS);
         }
     }

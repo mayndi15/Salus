@@ -1,5 +1,7 @@
 package com.salus.person;
 
+import com.salus.person.enums.DocumentTypeEnum;
+import com.salus.person.enums.GenderEnum;
 import com.salus.utils.DateUtils;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +17,8 @@ public class PersonConverter {
         p.setSocialName(pj.socialName());
         p.setGender(GenderEnum.valueOf(pj.gender()));
         p.setBirthday(DateUtils.convertStringToLocalDate(pj.birthday()));
-        p.setDocument(DocumentEnum.valueOf(pj.document()));
-        p.setValue(pj.value());
+        p.setTypeDocument(DocumentTypeEnum.valueOf(pj.typeDocument()));
+        p.setDocument(pj.document());
 
         return p;
     }
@@ -30,8 +32,8 @@ public class PersonConverter {
                 p.getSocialName(),
                 p.getGender().toString(),
                 DateUtils.convertLocalDateToString(p.getBirthday()),
-                p.getDocument().toString(),
-                p.getValue(),
+                p.getTypeDocument().toString(),
+                p.getDocument(),
                 p.getStatus().toString(),
                 (DateUtils.convertZonedDateTimeToString(p.getCreated())),
                 (DateUtils.convertZonedDateTimeToString(p.getUpdated())));

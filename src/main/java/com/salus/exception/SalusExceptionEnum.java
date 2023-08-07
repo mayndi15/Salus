@@ -7,6 +7,7 @@ public enum SalusExceptionEnum implements ISalusException {
 
     ID_NOT_FOUND(HttpStatus.BAD_REQUEST, 01L, "id.not.found"),
     JSON_INVALID_FORMAT(HttpStatus.BAD_REQUEST, 02L, "json.invalid.format"),
+    JSON_DESERIALIZE_INVALID(HttpStatus.BAD_REQUEST, 03L, "json.deserialize.invalid"),
 
 
     PERSON_WITHOUT_FIRST_NAME(HttpStatus.BAD_REQUEST, 11L, "person.without.first.name"),
