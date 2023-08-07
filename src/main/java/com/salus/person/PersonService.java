@@ -2,6 +2,7 @@ package com.salus.person;
 
 import com.salus.exception.SalusException;
 import com.salus.person.enums.StatusEnum;
+import com.salus.person.validators.PersonServiceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

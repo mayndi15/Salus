@@ -1,7 +1,9 @@
-package com.salus.person;
+package com.salus.person.validators;
 
 import com.salus.exception.SalusException;
 import com.salus.exception.SalusExceptionEnum;
+import com.salus.person.Person;
+import com.salus.person.PersonService;
 import com.salus.person.enums.StatusEnum;
 import com.salus.utils.DocumentUtils;
 import com.salus.utils.EnumUtils;

@@ -2,6 +2,7 @@ package com.salus.person;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.salus.exception.SalusException;
+import com.salus.person.validators.PersonControllerValidator;
 import com.salus.rest.BaseJson;
 import com.salus.utils.JsonUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;

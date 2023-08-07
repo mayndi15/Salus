@@ -1,7 +1,8 @@
-package com.salus.person;
+package com.salus.person.validators;
 
 import com.salus.exception.SalusException;
 import com.salus.exception.SalusExceptionEnum;
+import com.salus.person.PersonJson;
 import com.salus.person.enums.DocumentTypeEnum;
 import com.salus.person.enums.GenderEnum;
 import com.salus.rest.BaseJson;
