@@ -1,6 +1,7 @@
 package com.salus.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,24 +34,36 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T deserialize(String jsonStr, Class<T> clazz) throws SalusException, JsonProcessingException {
+    public static <T> T deserialize(String jsonStr, Class<T> clazz) throws SalusException {
 
-        T obj = mapper.readValue(jsonStr, clazz);
+        T obj = null;
 
-        if (!isJson(obj.toString())) {
-            throw new SalusException(SalusExceptionEnum.JSON_DESERIALIZE_INVALID);
+        try {
+            obj = mapper.readValue(jsonStr, clazz);
+
+            if (!isJson(obj.toString())) {
+                throw new SalusException(SalusExceptionEnum.JSON_DESERIALIZE_INVALID);
+            }
+
+        } catch (JsonProcessingException ex) {
+            throw new RuntimeException(ex);
         }
         return obj;
     }
 
-    public static boolean isJson(String json) {
+    public static boolean isJson(String jsonStr) {
 
-        if (json == null) {
+        if (jsonStr == null) {
             return false;
         }
 
         try {
-            mapper.createParser(json);
+            JsonParser json = mapper.createParser(jsonStr);
+
+            if (json == null) {
+                return false;
+            }
+
         } catch (Exception ex) {
             return false;
         }

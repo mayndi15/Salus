@@ -24,10 +24,9 @@ public class PersonServiceValidator {
         validateDocument(p);
     }
 
-    public void validateUpdate(Person p, Long id) throws SalusException {
+    public void validateUpdate(Person p) throws SalusException {
         validateStatus(p);
         validateJson(p);
-        validateId(id);
     }
 
     public void validateId(Long id) throws SalusException {

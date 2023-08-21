@@ -17,7 +17,7 @@ public class PersonConverter {
         p.setSocialName(pj.socialName());
         p.setGender(GenderEnum.valueOf(pj.gender()));
         p.setBirthday(DateUtils.convertStringToLocalDate(pj.birthday()));
-        p.setTypeDocument(DocumentTypeEnum.valueOf(pj.typeDocument()));
+        p.setDocumentType(DocumentTypeEnum.valueOf(pj.documentType()));
         p.setDocument(pj.document());
 
         return p;
@@ -32,7 +32,7 @@ public class PersonConverter {
                 p.getSocialName(),
                 p.getGender().toString(),
                 DateUtils.convertLocalDateToString(p.getBirthday()),
-                p.getTypeDocument().toString(),
+                p.getDocumentType().toString(),
                 p.getDocument(),
                 p.getStatus().toString(),
                 (DateUtils.convertZonedDateTimeToString(p.getCreated())),

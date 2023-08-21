@@ -37,19 +37,6 @@ public class PersonService {
         return repository.findByDocument(document);
     }
 
-    public Person reactivate(Person p) throws SalusException {
-        Person pPersist = findByDocument(p.getDocument());
-
-        if (pPersist != null && pPersist.getStatus() == StatusEnum.ACTIVE) {
-            return null;
-        }
-
-        pPersist = update(p, pPersist.getId());
-        pPersist.setStatus(StatusEnum.ACTIVE);
-
-        return pPersist;
-    }
-
     public Person create(Person p) throws SalusException {
 
         setUpTimestamps(p);
@@ -66,10 +53,9 @@ public class PersonService {
         Person pPersist = load(id);
 
         setUpdate(p, pPersist);
-
         setUpTimestamps(pPersist);
 
-        validator.validateUpdate(pPersist, id);
+        validator.validateUpdate(pPersist);
 
         return repository.save(pPersist);
     }
@@ -86,6 +72,8 @@ public class PersonService {
         validator.validateId(id);
 
         Person pPersist = load(id);
+
+        setUpTimestamps(pPersist);
         pPersist.setStatus(StatusEnum.INACTIVE);
 
         repository.save(pPersist);

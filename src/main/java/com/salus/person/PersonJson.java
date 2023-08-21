@@ -10,7 +10,7 @@ public record PersonJson(
         String socialName,
         String gender,
         String birthday,
-        String typeDocument,
+        String documentType,
         String document,
         String status,
         String created,

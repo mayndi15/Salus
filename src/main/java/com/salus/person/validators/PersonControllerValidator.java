@@ -78,7 +78,7 @@ public class PersonControllerValidator {
     }
 
     private void validateDocumentType(PersonJson pj) throws SalusException {
-        if (pj.typeDocument() != null && !EnumUtils.isEnum(pj.typeDocument(), DocumentTypeEnum.class)) {
+        if (pj.documentType() != null && !EnumUtils.isEnum(pj.documentType(), DocumentTypeEnum.class)) {
             throw new SalusException(SalusExceptionEnum.PERSON_INVALID_DOCUMENT);
         }
     }

@@ -1,6 +1,5 @@
 package com.salus.person;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.salus.exception.SalusException;
 import com.salus.person.validators.PersonControllerValidator;
 import com.salus.rest.BaseJson;
@@ -11,14 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/person")
@@ -35,7 +27,7 @@ public class PersonController {
     private PersonControllerValidator validator;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PersonJson> create(@RequestBody String body) throws SalusException, JsonProcessingException {
+    public ResponseEntity<PersonJson> create(@RequestBody String body) throws SalusException {
         BaseJson request = JsonUtils.deserialize(body, BaseJson.class);
 
         validator.validateCreate(request);
@@ -49,7 +41,7 @@ public class PersonController {
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PersonJson> update(@RequestBody String body, @PathVariable(value = "id") Long id) throws SalusException, JsonProcessingException {
+    public ResponseEntity<PersonJson> update(@RequestBody String body, @PathVariable(value = "id") Long id) throws SalusException {
         BaseJson request = JsonUtils.deserialize(body, BaseJson.class);
 
         validator.validateUpdate(request, id);
@@ -102,7 +94,7 @@ public class PersonController {
     }
 
     @GetMapping(value = "findByDocument", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PersonJson> findByDocument(@RequestBody String body) throws SalusException, JsonProcessingException {
+    public ResponseEntity<PersonJson> findByDocument(@RequestBody String body) throws SalusException {
         BaseJson request = JsonUtils.deserialize(body, BaseJson.class);
 
         String document = request.getPerson().document();

@@ -3,14 +3,7 @@ package com.salus.person;
 import com.salus.person.enums.DocumentTypeEnum;
 import com.salus.person.enums.GenderEnum;
 import com.salus.person.enums.StatusEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,8 +41,8 @@ public class Person {
     private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "typeDocument", nullable = false)
-    private DocumentTypeEnum typeDocument;
+    @Column(name = "documentType", nullable = false)
+    private DocumentTypeEnum documentType;
 
     @Column(name = "document", nullable = false)
     private String document;
