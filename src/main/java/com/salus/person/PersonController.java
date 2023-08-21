@@ -101,6 +101,18 @@ public class PersonController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(value = "findByDocument", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PersonJson> findByDocument(@RequestBody String body) throws SalusException, JsonProcessingException {
+        BaseJson request = JsonUtils.deserialize(body, BaseJson.class);
+
+        String document = request.getPerson().document();
+
+        Person p = service.findByDocument(document);
+
+        PersonJson response = embedJson(p);
+        return ResponseEntity.ok(response);
+    }
+
     // PRIVATE METHODS
     private PersonJson embedJson(Person p) {
 

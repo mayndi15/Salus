@@ -28,6 +28,28 @@ public class PersonService {
         return repository.findById(id).orElse(null);
     }
 
+    public Person findByDocument(String document) {
+
+        if (document == null) {
+            return null;
+        }
+
+        return repository.findByDocument(document);
+    }
+
+    public Person reactivate(Person p) throws SalusException {
+        Person pPersist = findByDocument(p.getDocument());
+
+        if (pPersist != null && pPersist.getStatus() == StatusEnum.ACTIVE) {
+            return null;
+        }
+
+        pPersist = update(p, pPersist.getId());
+        pPersist.setStatus(StatusEnum.ACTIVE);
+
+        return pPersist;
+    }
+
     public Person create(Person p) throws SalusException {
 
         setUpTimestamps(p);
